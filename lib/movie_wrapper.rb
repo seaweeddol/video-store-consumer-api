@@ -11,11 +11,13 @@ class MovieWrapper
 
     url = BASE_URL + "search/movie?api_key=" + KEY + "&query=" + query
 
-    response =  HTTParty.get(url)
+    response =  HTTParty.get(url) # MovieDB API call
 
     if response.success?
+      # if no results, return empty array
       if response["total_results"] == 0
         return []
+      # if results, create new Movie for each result
       else
         movies = response["results"].map do |result|
           self.construct_movie(result)
@@ -25,7 +27,7 @@ class MovieWrapper
     elsif retries_left > 0
       sleep(1.0 / (2 ** retries_left))
 
-      return self.search(query, retries_left - 1)
+      return self.search(query, retries_left - 1) # recursively call search while there are more than 0 retries_left
     else
       raise "Request failed: #{url}"
     end

@@ -19,6 +19,7 @@ class Rental < ApplicationRecord
   end
 
 private
+  # due_date must be after today's date
   def due_date_in_future
     return unless self.due_date
     unless due_date > Date.today

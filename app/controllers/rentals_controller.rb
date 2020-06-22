@@ -14,7 +14,7 @@ class RentalsController < ApplicationController
   end
 
   def check_in
-    rental = Rental.first_outstanding(@movie, @customer)
+    rental = Rental.first_outstanding(@movie, @customer) # grabs first rental that matches movie & customer and is not returned
     unless rental
       return render status: :not_found, json: {
         errors: {
@@ -31,6 +31,7 @@ class RentalsController < ApplicationController
   end
 
   def overdue
+    # return all rentals where returned: false, and due date is before today
     rentals = Rental.overdue.map do |rental|
       {
           title: rental.movie.title,

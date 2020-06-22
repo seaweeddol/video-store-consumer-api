@@ -2,7 +2,7 @@ class MoviesController < ApplicationController
   before_action :require_movie, only: [:show]
 
   def index
-    if params[:query]
+    if params[:query] # maybe the user search input?
       data = MovieWrapper.search(params[:query])
     else
       data = Movie.all
@@ -11,7 +11,9 @@ class MoviesController < ApplicationController
     render status: :ok, json: data
   end
 
+  # runs require_movie before this action
   def show
+    # if movie exists, status: ok and return movie info
     render(
       status: :ok,
       json: @movie.as_json(
