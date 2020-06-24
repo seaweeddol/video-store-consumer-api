@@ -4,7 +4,9 @@ class MovieWrapper
 
   BASE_IMG_URL = "https://image.tmdb.org/t/p/"
   DEFAULT_IMG_SIZE = "w185"
-  DEFAULT_IMG_URL = "http://lorempixel.com/185/278/"
+  # DEFAULT_IMG_URL = "http://lorempixel.com/185/278/"
+  DEFAULT_IMG_URL = "https://i.imgur.com/Uw59wWE.png?1"
+  
 
   def self.search(query, retries_left=3)
     raise ArgumentError.new("Can't search without a MOVIEDB_KEY.  Please check your .env file!") unless KEY
