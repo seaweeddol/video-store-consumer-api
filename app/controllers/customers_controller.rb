@@ -31,6 +31,7 @@ class CustomersController < ApplicationController
 
     rentals = @customer.rentals.map do |rental| 
       {
+        name: @customer.name,
         title: rental.movie.title,
         checkout_date: rental.checkout_date,
         due_date: rental.due_date,
