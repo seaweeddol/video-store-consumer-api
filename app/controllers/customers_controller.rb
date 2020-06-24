@@ -32,6 +32,8 @@ class CustomersController < ApplicationController
     rentals = @customer.rentals.map do |rental| 
       {
         id: rental.id,
+        customer_id: rental.customer_id,
+        movie_id: rental.movie_id,
         name: @customer.name,
         title: rental.movie.title,
         checkout_date: rental.checkout_date,
