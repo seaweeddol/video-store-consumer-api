@@ -62,3 +62,8 @@ group :test do
   gem 'minitest-rails'
   gem 'minitest-reporters'
 end
+
+# AWS deployment
+group :production do
+  gem 'passenger', '5.0.28'
+end
