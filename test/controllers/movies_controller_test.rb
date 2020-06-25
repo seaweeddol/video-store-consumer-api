@@ -75,4 +75,62 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
 
     end
   end
+
+  describe "create" do 
+    let(:movie_params) {
+      { 
+        title: "Parasite",
+        overview: "test!",
+        inventory: 10,
+        image_url: "image test",
+        external_id: 123976
+      }
+    }
+
+    it "creates a movie with valid data" do 
+      count = Movie.count 
+
+      expect {
+        post movies_path, params: movie_params
+      }.must_differ "Movie.count", 1
+
+      expect(Movie.count).must_equal count + 1
+
+      must_respond_with :created
+    end
+
+    it "will respond with bad_request for invalid data" do 
+      movie_params[:title] = nil
+      movie_params[:inventory] = nil
+
+      expect {
+        post movies_path, params: movie_params
+      }.wont_change "Movie.count"
+      
+      must_respond_with :bad_request
+  
+      expect(response.header['Content-Type']).must_include 'json'
+      body = JSON.parse(response.body)
+      
+      expect(body["errors"].keys).must_include "title"
+      expect(body["errors"].keys).must_include "inventory"
+    end
+
+
+    it "cannot add the same movie twice" do 
+      count = Movie.count 
+
+      post movies_path, params: movie_params
+
+      expect {
+        post movies_path, params: movie_params
+      }.wont_differ "Movie.count"
+
+      expect(Movie.count).must_equal count + 1
+
+      must_respond_with :bad_request
+      expect(body).must_include "title"
+      expect(body).must_include "has already been taken"
+    end
+  end
 end
