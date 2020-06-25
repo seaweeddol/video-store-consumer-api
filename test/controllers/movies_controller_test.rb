@@ -128,9 +128,8 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
 
       expect(Movie.count).must_equal count + 1
 
-      must_respond_with :bad_request
-      expect(body).must_include "title"
-      expect(body).must_include "has already been taken"
+      must_respond_with :forbidden
+      expect(body).must_include "This movie is already in the database"
     end
   end
 end
