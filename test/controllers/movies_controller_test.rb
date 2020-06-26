@@ -101,7 +101,6 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
 
     it "will respond with bad_request for invalid data" do 
       movie_params[:title] = nil
-      movie_params[:inventory] = nil
 
       expect {
         post movies_path, params: movie_params
@@ -113,7 +112,6 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
       body = JSON.parse(response.body)
       
       expect(body["errors"].keys).must_include "title"
-      expect(body["errors"].keys).must_include "inventory"
     end
 
 
